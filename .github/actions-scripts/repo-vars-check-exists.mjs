@@ -20,8 +20,8 @@ async function checkRepoVariables() {
             repo: process.env.REPO_NAME,
         });
         console.log( 'listRepoVariables: ' + JSON.stringify(list) );
-        if (list.length == 0) return false;
-        const listFiltered = list.filter( i => i.name === process.env.VAR_NAME );
+        if (list.total_count == 0) return false;
+        const listFiltered = list.variables.filter( i => i.name === process.env.VAR_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
         if (exists) {
