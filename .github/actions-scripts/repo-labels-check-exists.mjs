@@ -12,14 +12,14 @@ const octokit = getOctokit(process.env.GHA_TOKEN);
 
 main();
 
-async function getLabel() {
+async function checkRepoLabels() {
 
     try {
         const { data:list } = await octokit.rest.issues.listLabelsForRepo({
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
         });
-        console.log( 'getLabel status: ' + getLabel );
+        console.log( 'listRepoLabels status: ' + list.toString() );
         const listFiltered = list.filter( i => i.name === process.env.LABEL_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
@@ -35,7 +35,7 @@ async function getLabel() {
 };
 
 async function main() {
-    const result = await getLabel();
+    const result = await checkRepoLabels();
     setOutput("result", result);
 };
 

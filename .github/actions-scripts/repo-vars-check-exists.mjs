@@ -19,7 +19,7 @@ async function checkRepoVariables() {
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
         });
-        console.log( 'listRepoVariables: ' + list );
+        console.log( 'listRepoVariables: ' + list.toString() );
         const listFiltered = list.filter( i => i.name === process.env.VAR_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
@@ -38,8 +38,3 @@ async function main() {
     const result = await checkRepoVariables();
     setOutput("result", result);
 };
-
-/*
-Test locally:
-GHA_TOKEN=<token> REPO_OWNER=dr3dr3 REPO_NAME=template-slidev VAR_NAME=SOLUTION node .github/actions-scripts/repo-vars-check-exists.mjs
-*/

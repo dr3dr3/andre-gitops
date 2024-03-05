@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        description: 'Repository for the label changes'
+        description: 'Repository (or * for all)'
         required: false
         default: '*'
         type: string
