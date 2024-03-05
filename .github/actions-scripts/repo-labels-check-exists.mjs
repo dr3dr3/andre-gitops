@@ -20,6 +20,7 @@ async function checkRepoLabels() {
             repo: process.env.REPO_NAME,
         });
         console.log( 'listRepoLabels status: ' + JSON.stringify(list) );
+        if (list.length == 0) return false;
         const listFiltered = list.filter( i => i.name === process.env.LABEL_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;

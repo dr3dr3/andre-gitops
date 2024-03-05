@@ -19,6 +19,7 @@ async function checkTemplateRepos() {
             type: 'owner'
         });
         console.log( 'listForUser: ' + JSON.stringify(list) );
+        if (list.length == 0) return false;
         const listFiltered = list.filter( i => i.name === process.env.REPO_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
