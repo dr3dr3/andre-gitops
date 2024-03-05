@@ -41,7 +41,7 @@ jobs:
         run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
 
       - name: Checkout GitOps
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get Solution Repo's
         id: repos
@@ -62,7 +62,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
