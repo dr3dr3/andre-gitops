@@ -17,7 +17,7 @@ const repoSchemaCore = z.object({
 }).strict();
 
 const repoSchemaSolution = repoSchemaCore.extend({
-    groups: z.array(z.string()).nonempty,
+    groups: z.array(z.string()).nonempty(),
     route: z.string(),
 }).strict();
 
