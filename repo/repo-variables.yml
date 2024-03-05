@@ -1,132 +1,132 @@
 repoVariables:
 
   - name: SOLUTION
-    repo: template-nextjs-landing
+    repo: andre-nextjs
     value: nextjs
   - name: SOLN_GROUP
-    repo: template-nextjs-landing
-    value: devops-demo
+    repo: andre-nextjs
+    value: www
   - name: SOLN_DIR
-    repo: template-nextjs-landing
+    repo: andre-nextjs
     value: landing
   - name: OUTPUT_DIR
-    repo: template-nextjs-landing
+    repo: andre-nextjs
     value: out
   - name: SITE_URL
-    repo: template-nextjs-landing
-    value: https://ci-landing.andredreyer.com
+    repo: andre-nextjs
+    value: https://ci-www.andredreyer.com
   - name: DEPLOY_CI
-    repo: template-nextjs-landing
+    repo: andre-nextjs
     value: GITHUB-PAGES
   - name: REPO_GITOPS
-    repo: template-nextjs-landing
-    value: dr3dr3/template-gitops
+    repo: andre-nextjs
+    value: dr3dr3/andre-gitops
   - name: REPO_STAGE
-    repo: template-nextjs-landing
-    value: dr3dr3/template-deployment
+    repo: andre-nextjs
+    value: dr3dr3/andre-stage
   - name: REPO_PROD
-    repo: template-nextjs-landing
-    value: dr3dr3/template-deployment
+    repo: andre-nextjs
+    value: dr3dr3/andre-prod
   - name: CHECK_LINKS
-    repo: template-nextjs-landing
+    repo: andre-nextjs
     value: 'false'
 
   - name: SOLUTION
-    repo: template-revealmd
+    repo: andre-revealmd
     value: revealmd
   - name: SOLN_GROUP
-    repo: template-revealmd
-    value: devops-demo
+    repo: andre-revealmd
+    value: www
   - name: SOLN_DIR
-    repo: template-revealmd
+    repo: andre-revealmd
     value: revealmd
   - name: OUTPUT_DIR
-    repo: template-revealmd
+    repo: andre-revealmd
     value: out
   - name: SITE_URL
-    repo: template-revealmd
+    repo: andre-revealmd
     value: https://ci-slides.andredreyer.com
   - name: DEPLOY_CI
-    repo: template-revealmd
+    repo: andre-revealmd
     value: GITHUB-PAGES
   - name: REPO_GITOPS
-    repo: template-revealmd
+    repo: andre-revealmd
     value: dr3dr3/template-gitops
   - name: REPO_STAGE
-    repo: template-revealmd
-    value: dr3dr3/template-deployment
+    repo: andre-revealmd
+    value: dr3dr3/andre-stage
   - name: REPO_PROD
-    repo: template-revealmd
-    value: dr3dr3/template-deployment
+    repo: andre-revealmd
+    value: dr3dr3/andre-prod
   - name: CHECK_LINKS
-    repo: template-revealmd
+    repo: andre-revealmd
     value: 'false'
 
   - name: SOLUTION
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: featurevisor
   - name: SOLN_GROUP
-    repo: template-featurevisor
-    value: feature-flags
+    repo: andre-featurevisor
+    value: flags
   - name: SOLN_DIR
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: featureflags
   - name: OUTPUT_DIR
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: out
   - name: SITE_URL
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: https://ci-flags.andredreyer.com
   - name: DEPLOY_CI
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: GITHUB-PAGES
   - name: REPO_GITOPS
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: dr3dr3/template-gitops
   - name: REPO_STAGE
-    repo: template-featurevisor
-    value: dr3dr3/template-deployment
+    repo: andre-featurevisor
+    value: dr3dr3/andre-stage
   - name: REPO_PROD
-    repo: template-featurevisor
-    value: dr3dr3/template-deployment
+    repo: andre-featurevisor
+    value: dr3dr3/andre-prod
   - name: CHECK_LINKS
-    repo: template-featurevisor
+    repo: andre-featurevisor
     value: 'false'
 
   - name: SOLN_GROUP
-    repo: template-deployment
-    value: feature-flags
+    repo: andre-stage
+    value: deployments
   - name: SITE_URL
-    repo: template-deployment
+    repo: andre-stage
     value: https://stg.andredreyer.com
   - name: CHECK_LINKS
-    repo: template-deployment
+    repo: andre-stage
     value: 'true'
   - name: REPO_GITOPS
-    repo: template-deployment
-    value: dr3dr3/template-gitops
+    repo: andre-stage
+    value: dr3dr3/andre-gitops
   - name: DEPLOY_BLUE
-    repo: template-deployment
+    repo: andre-stage
     value: GITHUB-PAGES
   - name: ENVIRONMENT
-    repo: template-deployment
+    repo: andre-stage
     value: stg
 
   - name: SOLN_GROUP
-    repo: template-deployment
-    value: feature-flags
+    repo: andre-prod
+    value: deployments
   - name: SITE_URL
-    repo: template-deployment
+    repo: andre-prod
     value: https://www.andredreyer.com
   - name: CHECK_LINKS
-    repo: template-deployment
+    repo: andre-prod
     value: 'true'
   - name: REPO_GITOPS
-    repo: template-deployment
-    value: dr3dr3/template-gitops
+    repo: andre-prod
+    value: dr3dr3/andre-gitops
   - name: DEPLOY_BLUE
-    repo: template-deployment
+    repo: andre-prod
     value: GITHUB-PAGES
   - name: ENVIRONMENT
-    repo: template-deployment
+    repo: andre-prod
     value: prd

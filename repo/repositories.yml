@@ -1,33 +1,33 @@
 repositories:
   solutions:
 
-    - name: start
-      repo: template-nextjs-landing
-      repoDescription: 'Micro-frontend for landing page'
+    - name: www
+      repo: andre-nextjs
+      repoDescription: 'Andre Dreyer Personal Website'
       repoTemplate: template-nextjs-landing
       groups: 
-      - devops-demo
+      - www
       - default
       route: root
       githubPages: true
-      gitflow: pull-request
+      gitflow: trunk-based-development
       status: active
     - name: slides
-      repo: template-revealmd
-      repoDescription: 'Micro-frontend for slides using Reveal-MD'
+      repo: andre-revealmd
+      repoDescription: 'Andre Dreyer Presentations' 
       repoTemplate: template-revealmd
       groups: 
-      - devops-demo
+      - www
       route: present
       githubPages: true
-      gitflow: pull-request
+      gitflow: trunk-based-development
       status: active
-    - name: feature-flags
-      repo: template-featurevisor
-      repoDescription: 'Feature flag service'
+    - name: flags
+      repo: andre-featurevisor
+      repoDescription: 'Andre Dreyer Website Feature Flags'
       repoTemplate: template-featurevisor
       groups: 
-      - feature-flag-service
+      - flags
       route: root
       githubPages: true
       gitflow: trunk-based-development
@@ -35,50 +35,42 @@ repositories:
 
   core:
     - name: pipeline
-      repo: template-pipeline
-      repoDescription: 'Continuous Delivery Pipeline using GitHub Action Workflows'
+      repo: andre-pipeline
+      repoDescription: 'Andre Dreyer Website CICD Pipeline'
       repoTemplate: template-pipeline
       githubPages: false
       gitflow: trunk-based-development
       status: active
     - name: gitops
-      repo: template-gitops
-      repoDescription: 'Configuration Management and IaC using GitHub Action Workflows'
+      repo: andre-gitops
+      repoDescription: 'Andre Dreyer Website Configuration GitOps'
       repoTemplate: template-gitops
       githubPages: false
       gitflow: pull-request
       status: active
 
   deployment:
-    - name: stage-devops-demo
-      repo: template-deployment
+    - name: andre-stage
+      repo: andre-stage
       repoDescription: 'Repository for controlling deployments to Stage'
       repoTemplate: template-deployment
-      host: github-pages
+      host: GITHUB-PAGES
       githubPages: true
       gitflow: trunk-based-development
       status: active
-    - name: production-devops-demo
-      repo: template-deployment
+    - name: andre-prod
+      repo: andre-prod
       repoDescription: 'Repository for controlling deployments to Production'
       repoTemplate: template-deployment
-      host: github-pages
+      host: GITHUB-PAGES
       githubPages: true
       gitflow: trunk-based-development
       status: active
-    - name: stage-feature-flags
-      repo: template-deployment
-      repoDescription: 'Repository for controlling deployments to Stage'
+    - name: andre-feature-flags
+      repo: andre-feature-flags
+      repoDescription: 'Repository for feature flag services for www.andredreyer.com'
       repoTemplate: template-deployment
-      host: github-pages
-      githubPages: true
-      gitflow: trunk-based-development
-      status: active
-    - name: production-feature-flags
-      repo: template-deployment
-      repoDescription: 'Repository for controlling deployments to Production'
-      repoTemplate: template-deployment
-      host: github-pages
+      host: GITHUB-PAGES
       githubPages: true
       gitflow: trunk-based-development
       status: active
