@@ -19,7 +19,7 @@ async function checkRepoVariables() {
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
         });
-        console.log( 'listRepoVariables: ' + list.toString() );
+        console.log( 'listRepoVariables: ' + JSON.stringify(list) );
         const listFiltered = list.filter( i => i.name === process.env.VAR_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;

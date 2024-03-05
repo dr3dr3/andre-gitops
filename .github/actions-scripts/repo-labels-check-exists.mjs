@@ -19,7 +19,7 @@ async function checkRepoLabels() {
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
         });
-        console.log( 'listRepoLabels status: ' + list.toString() );
+        console.log( 'listRepoLabels status: ' + JSON.stringify(list) );
         const listFiltered = list.filter( i => i.name === process.env.LABEL_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
@@ -38,8 +38,3 @@ async function main() {
     const result = await checkRepoLabels();
     setOutput("result", result);
 };
-
-/*
-Test locally:
-GHA_TOKEN=<token> REPO_OWNER=dr3dr3 REPO_NAME=temp-slidev node .github/actions-scripts/repo-update-branch-protection.mjs
-*/
