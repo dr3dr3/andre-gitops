@@ -17,7 +17,7 @@ const repoSchemaCore = z.object({
 }).strict();
 
 const repoSchemaSolution = repoSchemaCore.extend({
-    group: z.string(),
+    groups: z.string(),
     route: z.string(),
 }).strict();
 
