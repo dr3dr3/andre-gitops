@@ -21,7 +21,7 @@ async function checkRepoSecrets() {
         });
         console.log( 'listRepoSecrets: ' + JSON.stringify(list) );
         if (list.total_count == 0) return false;
-        const listFiltered = list.variables.filter( i => i.name === process.env.SECRET_NAME );
+        const listFiltered = list.secrets.filter( i => i.name === process.env.SECRET_NAME );
         console.log( listFiltered );
         const exists = (listFiltered.length == 1 ) ? true : false;
         if (exists) {
