@@ -1,0 +1,132 @@
+repoVariables:
+
+  - name: SOLUTION
+    repo: template-nextjs-landing
+    value: nextjs
+  - name: SOLN_GROUP
+    repo: template-nextjs-landing
+    value: devops-demo
+  - name: SOLN_DIR
+    repo: template-nextjs-landing
+    value: landing
+  - name: OUTPUT_DIR
+    repo: template-nextjs-landing
+    value: out
+  - name: SITE_URL
+    repo: template-nextjs-landing
+    value: https://ci-landing.andredreyer.com
+  - name: DEPLOY_CI
+    repo: template-nextjs-landing
+    value: GITHUB-PAGES
+  - name: REPO_GITOPS
+    repo: template-nextjs-landing
+    value: dr3dr3/template-gitops
+  - name: REPO_STAGE
+    repo: template-nextjs-landing
+    value: dr3dr3/template-deployment
+  - name: REPO_PROD
+    repo: template-nextjs-landing
+    value: dr3dr3/template-deployment
+  - name: CHECK_LINKS
+    repo: template-nextjs-landing
+    value: 'false'
+
+  - name: SOLUTION
+    repo: template-revealmd
+    value: revealmd
+  - name: SOLN_GROUP
+    repo: template-revealmd
+    value: devops-demo
+  - name: SOLN_DIR
+    repo: template-revealmd
+    value: revealmd
+  - name: OUTPUT_DIR
+    repo: template-revealmd
+    value: out
+  - name: SITE_URL
+    repo: template-revealmd
+    value: https://ci-slides.andredreyer.com
+  - name: DEPLOY_CI
+    repo: template-revealmd
+    value: GITHUB-PAGES
+  - name: REPO_GITOPS
+    repo: template-revealmd
+    value: dr3dr3/template-gitops
+  - name: REPO_STAGE
+    repo: template-revealmd
+    value: dr3dr3/template-deployment
+  - name: REPO_PROD
+    repo: template-revealmd
+    value: dr3dr3/template-deployment
+  - name: CHECK_LINKS
+    repo: template-revealmd
+    value: 'false'
+
+  - name: SOLUTION
+    repo: template-featurevisor
+    value: featurevisor
+  - name: SOLN_GROUP
+    repo: template-featurevisor
+    value: feature-flags
+  - name: SOLN_DIR
+    repo: template-featurevisor
+    value: featureflags
+  - name: OUTPUT_DIR
+    repo: template-featurevisor
+    value: out
+  - name: SITE_URL
+    repo: template-featurevisor
+    value: https://ci-flags.andredreyer.com
+  - name: DEPLOY_CI
+    repo: template-featurevisor
+    value: GITHUB-PAGES
+  - name: REPO_GITOPS
+    repo: template-featurevisor
+    value: dr3dr3/template-gitops
+  - name: REPO_STAGE
+    repo: template-featurevisor
+    value: dr3dr3/template-deployment
+  - name: REPO_PROD
+    repo: template-featurevisor
+    value: dr3dr3/template-deployment
+  - name: CHECK_LINKS
+    repo: template-featurevisor
+    value: 'false'
+
+  - name: SOLN_GROUP
+    repo: template-deployment
+    value: feature-flags
+  - name: SITE_URL
+    repo: template-deployment
+    value: https://stg.andredreyer.com
+  - name: CHECK_LINKS
+    repo: template-deployment
+    value: 'true'
+  - name: REPO_GITOPS
+    repo: template-deployment
+    value: dr3dr3/template-gitops
+  - name: DEPLOY_BLUE
+    repo: template-deployment
+    value: GITHUB-PAGES
+  - name: ENVIRONMENT
+    repo: template-deployment
+    value: stg
+
+  - name: SOLN_GROUP
+    repo: template-deployment
+    value: feature-flags
+  - name: SITE_URL
+    repo: template-deployment
+    value: https://www.andredreyer.com
+  - name: CHECK_LINKS
+    repo: template-deployment
+    value: 'true'
+  - name: REPO_GITOPS
+    repo: template-deployment
+    value: dr3dr3/template-gitops
+  - name: DEPLOY_BLUE
+    repo: template-deployment
+    value: GITHUB-PAGES
+  - name: ENVIRONMENT
+    repo: template-deployment
+    value: prd

@@ -1,0 +1,105 @@
+name: REPOSITORY-LABEL-CHANGES
+run-name: Create/update Repo Labels ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'Repository for the label changes'
+        required: false
+        default: '*'
+        type: string
+  workflow_call:
+    inputs:
+      repo:
+        required: false
+        type: string
+  push:
+    paths:
+      - 'repo/repo-labels.yml'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+
+  get-config:
+    name: Get config from GitOps
+    if: ${{ github.event.head_commit.message != 'Initial commit' || github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' }}
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.repos.outputs.LABELS }}
+    permissions:
+      contents: read
+    steps:
+
+      - name: Check GITOPS_PAT secret exists
+        env:
+          gitops-secret: ${{ secrets.GITOPS_PAT }}
+        if: ${{ env.gitops-secret == '' }}
+        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout GitOps
+        uses: actions/checkout@v3
+
+      - name: Get Solution Repo's
+        id: repos
+        run: |
+          filter=$(yq '.repoLabels | filter(.repo == "${{ inputs.repo || '*' }}" )' repo/repo-labels.yml -o=json | jq -c)
+          labels="{\"include\": $filter }"
+          echo $labels
+          echo "LABELS=$labels" >> $GITHUB_OUTPUT
+
+  make-changes:
+    name: Make changes to repository variables
+    needs: [get-config]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.get-config.outputs.matrix) }}
+    permissions: 
+      issues: write
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Check label exists
+        id: exists
+        run: .github/actions-scripts/repo-labels-check-exists.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          LABEL_NAME: ${{ matrix.name }}
+
+      - name: Create labels
+        if: ${{ steps.exists.outputs.result != 'true' }}
+        run: .github/actions-scripts/repo-labels-create.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          LABEL_NAME: ${{ matrix.name }}
+          LABEL_COLOR: ${{ matrix.color }}
+          LABEL_DESC: ${{ matrix.description }}
+
+      - name: Update labels
+        if: ${{ steps.exists.outputs.result == 'true' }}
+        run: .github/actions-scripts/repo-labels-update.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          LABEL_NAME: ${{ matrix.name }}
+          LABEL_COLOR: ${{ matrix.color }}
+          LABEL_DESC: ${{ matrix.description }}
+
+      - name: GHA Summary
+        run: echo "Label ${{ matrix.name }} created / updated" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,45 @@
+name: SCHEDULED-CHECKS
+run-name: Schecduled Checks ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '55 19 * * 1'  
+    # Weekly run on Monday 5:55am Brisbane
+    # https://crontab.guru/
+
+permissions:
+  contents: none
+
+jobs:
+
+  scheduled-checks:
+    name: Scheduled checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: none
+
+    steps:
+      
+      - name: Check GITOPS_PAT secret exists
+        env:
+          gitops-secret: ${{ secrets.GITOPS_PAT }}
+        if: ${{ env.gitops-secret == '' }}
+        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Schema validation
+        id: schema-validation
+        run: .github/actions-scripts/schema-validation.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+
+      # Create issue if secrets about to expire

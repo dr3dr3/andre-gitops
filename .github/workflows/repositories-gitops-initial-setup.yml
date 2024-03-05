@@ -1,0 +1,70 @@
+name: REPOSITORY-GITOPS-INITIAL-SETUP
+run-name: Initial setup of GitOps repository ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+
+  get-config:
+    name: Repositories GitOps
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+
+      - name: Check GITOPS_PAT secret exists
+        env:
+          gitops-secret: ${{ secrets.GITOPS_PAT }}
+        if: ${{ env.gitops-secret == '' }}
+        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+  
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Create label for short-lived feature branches
+        run: gh label create "$LABEL_NAME" --description "$LABEL_DESC" --color "$LABEL_COLOR" --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABEL_NAME: 'dev-slfb'
+          LABEL_DESC: 'Short-lived Feature Branch'
+          LABEL_COLOR: 'bcf5db'
+
+      - name: Create label for codespace for SLFB
+        run: gh label create "$LABEL_NAME" --description "$LABEL_DESC" --color "$LABEL_COLOR" --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABEL_NAME: 'dev-codespace'
+          LABEL_DESC: 'Codespace for SLFB'
+          LABEL_COLOR: 'bcf5db'
+
+      - name: Update repo
+        run: .github/actions-scripts/repo-update.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ github.event.repository.name }}
+
+      - name: Update repo branch protection
+        run: .github/actions-scripts/repo-update-branch-protection.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ github.event.repository.name }}
+
+      - name: GHA Summary
+        run: echo "GitOps repo initial setup completed" >> $GITHUB_STEP_SUMMARY
+
+

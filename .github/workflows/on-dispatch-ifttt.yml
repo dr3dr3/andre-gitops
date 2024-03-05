@@ -1,0 +1,21 @@
+name: ON-DISPATCH-IFTTT
+run-name: IFTTT Call Webhook ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  repository_dispatch:
+    types: [cicd-event]
+
+permissions:
+  contents: none
+
+jobs:
+
+  ifttt:
+    name: IFTTT
+    uses: dr3dr3/template-pipeline/.github/workflows/ifttt-call-webhook.yml@main
+    with:  
+      phase: ${{ github.event.client_payload.phase }}
+      outcome: ${{ github.event.client_payload.outcome }}
+    permissions:
+      contents: none
+    secrets: inherit

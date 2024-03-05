@@ -1,0 +1,11 @@
+repoLabels:
+
+  - name: dev-slfb
+    description: 'Short-lived Feature Branch'
+    repo: template-gitops
+    color: 'bcf5db'
+
+  - name: dev-codespace
+    description: 'Codespace for SLFB'
+    repo: template-gitops
+    color: 'bcf5db'

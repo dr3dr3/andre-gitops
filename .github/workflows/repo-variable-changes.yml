@@ -1,0 +1,103 @@
+name: REPOSITORY-VARIABLE-CHANGES
+run-name: Create/update Repo Variables ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'Repository for the label changes'
+        required: false
+        default: '*'
+        type: string
+  workflow_call:
+    inputs:
+      repo:
+        required: false
+        type: string
+  push:
+    paths:
+      - 'repo/repo-variables.yml'
+
+permissions:
+  contents: read
+  issues: write
+  
+jobs:
+
+  get-config:
+    name: Get config from GitOps
+    if: ${{ github.event.head_commit.message != 'Initial commit' || github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' }}
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.repos.outputs.VARIABLES }}
+    permissions:
+      contents: read
+    steps:
+
+      - name: Check GITOPS_PAT secret exists
+        env:
+          gitops-secret: ${{ secrets.GITOPS_PAT }}
+        if: ${{ env.gitops-secret == '' }}
+        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout GitOps
+        uses: actions/checkout@v3
+
+      - name: Get Solution Repo's
+        id: repos
+        run: |
+          filter=$(yq '.repoVariables | filter(.repo == "${{ inputs.repo || '*' }}" )' repo/repo-variables.yml -o=json | jq -c)
+          vars="{\"include\": $filter }"
+          echo $vars
+          echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
+
+  make-changes:
+    name: Make changes to repository variables
+    needs: [get-config]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.get-config.outputs.matrix) }}
+    permissions:
+      contents: write
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Check variable exists
+        id: exists
+        run: .github/actions-scripts/repo-vars-check-exists.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          VAR_NAME: ${{ matrix.name }}
+
+      - name: Create variable
+        if: ${{ steps.exists.outputs.result != 'true' }}
+        run: .github/actions-scripts/repo-vars-create.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          VAR_NAME: ${{ matrix.name }}
+          VAR_VAL: ${{ matrix.value }}
+
+      - name: Update variable
+        if: ${{ steps.exists.outputs.result == 'true' }}
+        run: .github/actions-scripts/repo-vars-update.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          VAR_NAME: ${{ matrix.name }}
+          VAR_VAL: ${{ matrix.value }}
+
+      - name: GHA Summary
+        run: echo "Variable ${{ matrix.name }} created / updated" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,106 @@
+name: ON-ISSUE-LABELED
+run-name: Issue Labeled Workflows ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+
+  slfb:
+    name: Short-lived Feature Branches
+    if: ${{ github.event.label.name == 'dev-slfb' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+
+      - name: Set SLFB Name
+        id: slfb-name
+        run: |
+          name=$(echo ${{ github.event.issue.title }} | tr " " "-")
+          slfb=$(echo "${{github.event.issue.number}}-${name}" )
+          echo "${slfb}"
+          echo "SLFB=$slfb" >> $GITHUB_OUTPUT
+
+      - name: Setup SLFB
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue develop ${{github.event.issue.number}} --base main --name "${{ steps.slfb-name.outputs.SLFB }}" || gh issue comment ${{github.event.issue.number}} --body "GitHub Action - Short-Lived Feature Branch ( ${{ steps.slfb-name.outputs.SLFB }} ) already exists"
+
+      - name: Comment for Branch Checkout
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          comment="
+          ## Branch Created
+          
+          Checkout SLFB in your Dev environment
+
+          \`\`\`
+          git fetch origin
+          git checkout -b ${{ steps.slfb-name.outputs.SLFB }}
+          \`\`\`
+
+          "
+          echo $comment
+          gh issue comment ${{github.event.issue.number}} --body "$comment"
+
+      - name: Message SLFB
+        run: echo "### Short-Lived Feature Branch (SLFB) Created :thumbsup:" >> $GITHUB_STEP_SUMMARY
+
+  codespace:
+    name: Setup Codespace for SLFB
+    if: ${{ github.event.label.name == 'dev-codespace' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+
+      - name: Check CODESPACE_PAT secret exists
+        env:
+          codespace-secret: ${{ secrets.CODESPACE_PAT }}
+        if: ${{ env.codespace-secret == '' }}
+        run: echo "echo the secret \"CODESPACE_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+
+      - name: Set SLFB Name
+        id: slfb-name
+        run: |
+          name=$(echo ${{ github.event.issue.title }} | tr " " "-")
+          slfb=$(echo "${{github.event.issue.number}}-${name}" )
+          echo "${slfb}"
+          echo "SLFB=$slfb" >> $GITHUB_OUTPUT
+
+      - name: Setup Codespace
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_PAT }}
+        run: gh codespace create --display-name "${{ steps.slfb-name.outputs.SLFB }}" --repo "${{ github.repository }}" --branch "${{ steps.slfb-name.outputs.SLFB }}" --machine "basicLinux32gb" --retention-period "48h" --default-permissions
+
+      - name: Add Issue Comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          comment="
+          ## Created Codespace for SLFB
+          
+          Access here https://codespaces.new/dr3dr3/devops-demo?quickstart=1
+
+          "
+          echo $comment
+          gh issue comment ${{github.event.issue.number}} --body "$comment"
+
+      - name: Message Codespace
+        run: echo "### Codespace Created :thumbsup:" >> $GITHUB_STEP_SUMMARY
+  

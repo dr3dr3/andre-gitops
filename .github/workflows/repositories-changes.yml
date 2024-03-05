@@ -1,0 +1,113 @@
+name: REPOSITORY-CHANGES
+run-name: Create/update Repositories ( ${{ github.event_name }} run by ${{ github.actor }} )
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'repo/repositories.yml'
+
+permissions:
+  contents: write
+
+jobs:
+
+  get-config:
+    name: Get config from GitOps
+    if: ${{ github.event.head_commit.message != 'Initial commit' || github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      matrix: ${{ steps.repos.outputs.REPOS }}
+
+    steps:
+
+      - name: Check GITOPS_PAT secret exists
+        env:
+          gitops-secret: ${{ secrets.GITOPS_PAT }}
+        if: ${{ env.gitops-secret == '' }}
+        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Solution Repo's
+        id: repos
+        run: |
+          repos=$(yq '{"include": .repositories.solutions + .repositories.core + .repositories.deployment }' repo/repositories.yml -o=json | jq -c)
+          echo $repos
+          echo "REPOS=$repos" >> $GITHUB_OUTPUT
+
+  make-changes:
+    name: Make changes to repos
+    needs: [get-config]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.get-config.outputs.matrix) }}
+    permissions:
+      contents: write
+      
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Check repo exists
+        id: repo-exists
+        run: .github/actions-scripts/repo-check-exists.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ matrix.repo }}
+
+      - name: Check template exists
+        id: template-exists
+        run: .github/actions-scripts/repo-template-exists.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: 'dr3dr3'
+          REPO_NAME: ${{ matrix.repoTemplate }}
+
+      - name: Create repo
+        id: create-repo
+        if: ${{ steps.repo-exists.outputs.result != 'true'  && steps.template-exists.outputs.result == 'true' && matrix.status == 'active' }}
+        run: .github/actions-scripts/repo-create-using-template.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_TEMPLATE: ${{ matrix.repoTemplate	 }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ matrix.repo }}
+          REPO_DESC: ${{ matrix.repoDescription }}
+
+      - name: Update repo
+        run: .github/actions-scripts/repo-update.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ matrix.repo }}
+
+      - name: Update repo pages
+        if: ${{ matrix.github-pages }}
+        run: .github/actions-scripts/repo-update-pages.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ matrix.repo }}
+
+      - name: Update repo branch protection
+        if: ${{ matrix.gitflow == 'pull-request' }}
+        run: .github/actions-scripts/repo-update-branch-protection.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner	 }}
+          REPO_NAME: ${{ matrix.repo }}
+
+      - name: GHA Summary
+        run: echo "Repo ${{ matrix.repo }} created / updated" >> $GITHUB_STEP_SUMMARY
