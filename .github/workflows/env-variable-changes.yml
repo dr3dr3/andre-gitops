@@ -51,7 +51,7 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          count=$(jq length $filter)
+          count=$($filter | jq length )
           echo "COUNT=$count" >> $GITHUB_OUTPUT
 
   make-changes:
