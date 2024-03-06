@@ -94,7 +94,7 @@ jobs:
           REPO_NAME: ${{ matrix.repo }}
 
       - name: Update repo pages
-        if: ${{ matrix.github-pages }}
+        if: ${{ matrix.githubPages }}
         run: .github/actions-scripts/repo-update-pages.mjs
         env:
           GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
