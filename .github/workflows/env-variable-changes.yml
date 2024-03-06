@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.repos.outputs.VARIABLES }}
+      count: ${{ steps.repos.outputs.COUNT }}
     permissions:
       contents: read
     steps:
@@ -50,9 +51,12 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
+          count = jq length $filter
+          echo "COUNT=$count" >> $GITHUB_OUTPUT
 
   make-changes:
     name: Make changes to repository environment variables
+    if: ${{ needs.get-config.outputs.count }} != 0
     needs: [get-config]
     runs-on: ubuntu-latest
     strategy:
