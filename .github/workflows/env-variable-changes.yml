@@ -52,6 +52,7 @@ jobs:
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
           count=$($filter | jq length )
+          echo "Matrix count: $count"
           echo "COUNT=$count" >> $GITHUB_OUTPUT
 
   make-changes:
