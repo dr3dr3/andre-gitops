@@ -50,7 +50,7 @@ repositories:
       status: active
 
   deployment:
-    - name: andre-stage
+    - name: stage
       repo: andre-stage
       repoDescription: 'Repository for controlling deployments to Stage'
       repoTemplate: template-deployment
@@ -58,7 +58,7 @@ repositories:
       githubPages: true
       gitflow: trunk-based-development
       status: active
-    - name: andre-prod
+    - name: prod
       repo: andre-prod
       repoDescription: 'Repository for controlling deployments to Production'
       repoTemplate: template-deployment
