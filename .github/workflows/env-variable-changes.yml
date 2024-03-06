@@ -51,7 +51,7 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          count=$($filter | jq '.[] | length' )
+          count=$($filter | jq '. | length' )
           echo "Matrix count: $count"
           echo "COUNT=$count" >> $GITHUB_OUTPUT
 
