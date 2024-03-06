@@ -22,6 +22,7 @@ async function checkRepoEnvironments() {
         const { data:list } = await octokit.rest.actions.listEnvironmentVariables({
             repository_id: repo.id,
             environment_name: 'github-pages',
+            per_page: 50,
         });
         console.log( 'listEnvVariables: ' + JSON.stringify(list) );
         if (list.total_count == 0) return false;

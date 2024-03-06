@@ -18,6 +18,7 @@ async function checkRepoVariables() {
         const { data:list } = await octokit.rest.actions.listRepoVariables({
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
+            per_page: 50,
         });
         console.log( 'listRepoVariables: ' + JSON.stringify(list) );
         if (list.total_count == 0) return false;
