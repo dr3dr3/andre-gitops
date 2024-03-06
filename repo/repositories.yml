@@ -35,8 +35,8 @@ repositories:
 
   core:
     - name: pipeline
-      repo: andre-pipeline
-      repoDescription: 'Andre Dreyer Website CICD Pipeline'
+      repo: core-pipeline
+      repoDescription: 'CI/CD Pipeline and Workflows Service'
       repoTemplate: template-pipeline
       githubPages: false
       gitflow: trunk-based-development
