@@ -22,7 +22,7 @@ async function createRepoVariable() {
             name: process.env.VAR_NAME,
             value: process.env.VAR_VAL,
         });
-        console.log( 'createRepoVarible status: ' + varCreated );
+        console.log( 'createRepoVariable status: ' + varCreated );
         return true;
     } catch (err) {
         setFailed(err.message);

@@ -15,6 +15,9 @@ repoVariables:
   - name: SITE_URL
     repo: andre-nextjs
     value: https://ci-www.andredreyer.com
+  - name: BUILD_FLAGS_URL
+    repo: andre-nextjs
+    value: https://dr3dr3.github.io/andre-featurevisor/datafiles/build/datafile-tag-all.json
   - name: DEPLOY_CI
     repo: andre-nextjs
     value: GITHUB-PAGES
@@ -51,7 +54,10 @@ repoVariables:
     value: GITHUB-PAGES
   - name: REPO_GITOPS
     repo: andre-revealmd
-    value: dr3dr3/template-gitops
+    value: dr3dr3/andre-gitops
+  - name: REPO_FLAGS
+    repo: andre-revealmd
+    value: dr3dr3/andre-feature-flags
   - name: REPO_STAGE
     repo: andre-revealmd
     value: dr3dr3/andre-stage
@@ -82,7 +88,10 @@ repoVariables:
     value: GITHUB-PAGES
   - name: REPO_GITOPS
     repo: andre-featurevisor
-    value: dr3dr3/template-gitops
+    value: dr3dr3/andre-gitops
+  - name: REPO_FLAGS
+    repo: andre-featurevisor
+    value: dr3dr3/andre-feature-flags
   - name: REPO_STAGE
     repo: andre-featurevisor
     value: dr3dr3/andre-stage

@@ -66,11 +66,3 @@ repositories:
       githubPages: true
       gitflow: trunk-based-development
       status: active
-    - name: andre-feature-flags
-      repo: andre-feature-flags
-      repoDescription: 'Repository for feature flag services for www.andredreyer.com'
-      repoTemplate: template-deployment
-      host: GITHUB-PAGES
-      githubPages: true
-      gitflow: trunk-based-development
-      status: active
