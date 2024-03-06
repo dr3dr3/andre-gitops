@@ -46,7 +46,7 @@ repositories:
       repoDescription: 'Andre Dreyer Website Configuration GitOps'
       repoTemplate: template-gitops
       githubPages: false
-      gitflow: pull-request
+      gitflow: trunk-based-development
       status: active
 
   deployment:
