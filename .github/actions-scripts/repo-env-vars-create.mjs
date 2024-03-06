@@ -6,6 +6,7 @@ import { setOutput, setFailed } from "@actions/core";
 console.assert(process.env.GHA_TOKEN, "GHA_TOKEN not present");
 console.assert(process.env.REPO_OWNER, "REPO_OWNER not present");
 console.assert(process.env.REPO_NAME, "REPO_NAME not present");
+console.assert(process.env.ENV_NAME, "ENV_NAME not present");
 console.assert(process.env.VAR_NAME, "VAR_NAME not present");
 console.assert(process.env.VAR_VAL, "VAR_VAL not present");
 
@@ -13,16 +14,20 @@ const octokit = getOctokit(process.env.GHA_TOKEN);
 
 main();
 
-async function updateRepoVariable() {
+async function createRepoEnvVariable() {
 
     try {
-        const { status:varCreated } = await octokit.rest.actions.updateRepoVariable({
+        const { data:repo } = await octokit.rest.repos.get({
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
+        });
+        const { status:varCreated } = await octokit.rest.actions.createEnvironmentVariable({
+            repository_id: repo.id,
+            environment_name: process.env.ENV_NAME,
             name: process.env.VAR_NAME,
             value: process.env.VAR_VAL,
         });
-        console.log( 'updateRepoVariable status: ' + varCreated );
+        console.log( 'createRepoEnvVariable status: ' + varCreated );
         return true;
     } catch (err) {
         setFailed(err.message);
@@ -31,11 +36,11 @@ async function updateRepoVariable() {
 };
 
 async function main() {
-    const result = updateRepoVariable();
+    const result = await createRepoEnvVariable();
     setOutput("result", result);
 };
 
 /*
 Test locally:
-GHA_TOKEN=<token> REPO_OWNER=dr3dr3 REPO_NAME=template-slidev VAR_NAME=TEST VAR_VAL=WORKING2 node .github/actions-scripts/repo-vars-update.mjs
+GHA_TOKEN=<token> REPO_OWNER=dr3dr3 REPO_NAME=template-slidev VAR_NAME=TEST VAR_VAL=WORKING node .github/actions-scripts/repo-vars-create.mjs
 */

@@ -1,4 +1,4 @@
-name: REPOSITORY-ENVIRONEMENT-VAR-CHANGES
+name: REPOSITORY-ENV-VAR-CHANGES
 run-name: Create/update Repo Environment Variables ( ${{ github.event_name }} run by ${{ github.actor }} )
 
 on:
@@ -79,25 +79,27 @@ jobs:
           REPO_NAME: ${{ matrix.repo }}
           VAR_NAME: ${{ matrix.name }}
 
-      # - name: Create variable
-      #   if: ${{ steps.exists.outputs.result != 'true' }}
-      #   run: .github/actions-scripts/repo-vars-create.mjs
-      #   env:
-      #     GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
-      #     REPO_OWNER: ${{ github.repository_owner }}
-      #     REPO_NAME: ${{ matrix.repo }}
-      #     VAR_NAME: ${{ matrix.name }}
-      #     VAR_VAL: ${{ matrix.value }}
+      - name: Create environment variable
+        if: ${{ steps.exists.outputs.result != 'true' }}
+        run: .github/actions-scripts/repo-env-vars-create.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          ENV_NAME: 'github-pages'
+          VAR_NAME: ${{ matrix.name }}
+          VAR_VAL: ${{ matrix.value }}
 
-      # - name: Update variable
-      #   if: ${{ steps.exists.outputs.result == 'true' }}
-      #   run: .github/actions-scripts/repo-vars-update.mjs
-      #   env:
-      #     GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
-      #     REPO_OWNER: ${{ github.repository_owner }}
-      #     REPO_NAME: ${{ matrix.repo }}
-      #     VAR_NAME: ${{ matrix.name }}
-      #     VAR_VAL: ${{ matrix.value }}
+      - name: Update environment variable
+        if: ${{ steps.exists.outputs.result == 'true' }}
+        run: .github/actions-scripts/repo-env-vars-update.mjs
+        env:
+          GHA_TOKEN: ${{ secrets.GITOPS_PAT }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ matrix.repo }}
+          ENV_NAME: 'github-pages'
+          VAR_NAME: ${{ matrix.name }}
+          VAR_VAL: ${{ matrix.value }}
 
       - name: GHA Summary
-        run: echo "Variable ${{ matrix.name }} created / updated" >> $GITHUB_STEP_SUMMARY
+        run: echo "Environment variable ${{ matrix.name }} created / updated" >> $GITHUB_STEP_SUMMARY
