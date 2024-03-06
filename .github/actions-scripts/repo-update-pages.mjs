@@ -22,7 +22,7 @@ async function updateRepoPages() {
         getPages = 200;
         console.log( 'getPages status: ' + githubPages );
     } catch (err) {
-        if (err.message === 'Not Found') {
+        if (err.message.substring(0,9) === 'Not Found') {
             console.error("Pages not setup yet");
         } else {
             setFailed(err.message);
