@@ -19,7 +19,7 @@ async function checkRepoEnvironments() {
             owner: process.env.REPO_OWNER,
             repo: process.env.REPO_NAME,
         });
-        const { data:list } = await octokit.rest.repos.listEnvironmentVariables({
+        const { data:list } = await octokit.rest.actions.listEnvironmentVariables({
             repository_id: repo.id,
             environment_name: 'github-pages',
         });
