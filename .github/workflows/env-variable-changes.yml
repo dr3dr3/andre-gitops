@@ -53,7 +53,7 @@ jobs:
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
           if [ $filter == "[]" ] 
           then 
-            echo "No variables."
+            echo "No variables" >> $GITHUB_STEP_SUMMARY
             echo "COUNT=0" >> $GITHUB_OUTPUT
           else
             echo "COUNT=1" >> $GITHUB_OUTPUT
