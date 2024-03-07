@@ -51,7 +51,7 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          if [ $filter == '[]' ] 
+          if [ $filter | jq . length == 0 ] 
           then 
             exit 0
           fi
