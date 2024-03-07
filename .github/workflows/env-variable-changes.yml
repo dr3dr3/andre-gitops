@@ -51,10 +51,8 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          count=$($filter | jq '. | length' )
-          echo "Matrix count: $count"
-          echo "COUNT=$count" >> $GITHUB_OUTPUT
-
+          if [ $filter == '[]' ] then exit 0
+          
   make-changes:
     name: Make changes to repository environment variables
     if: ${{ needs.get-config.outputs.count }} != 0
