@@ -51,7 +51,10 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          if [ $filter == '[]' ] then exit 0
+          if [ $filter == '[]' ] 
+          then 
+            exit 0
+          fi
           
   make-changes:
     name: Make changes to repository environment variables
