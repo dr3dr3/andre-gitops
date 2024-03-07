@@ -51,14 +51,14 @@ jobs:
           vars="{\"include\": $filter }"
           echo $vars
           echo "VARIABLES=$vars" >> $GITHUB_OUTPUT
-          if [ $filter | jq . length == 0 ] 
+          if [ $filter == "[]" ] 
           then 
+            echo "No variables. Existing workflow."
             exit 0
           fi
           
   make-changes:
     name: Make changes to repository environment variables
-    if: ${{ needs.get-config.outputs.count }} != 0
     needs: [get-config]
     runs-on: ubuntu-latest
     strategy:
