@@ -120,7 +120,10 @@ repoVariables:
   - name: ENVIRONMENT
     repo: andre-stage
     value: stg
-
+  - name: REPO_PROD
+    repo: andre-stage
+    value: andre-prod
+    
   - name: SOLN_GROUP
     repo: andre-prod
     value: deployments
