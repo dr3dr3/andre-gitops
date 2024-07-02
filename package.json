@@ -1,17 +1,17 @@
 {
-  "name": "template-gitops",
+  "name": "andre-gitops",
   "version": "1.0.0",
-  "description": "GitOps for DevOps Demo",
+  "description": "GitOps for andredreyer.com website",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dr3dr3/temp-gitops.git"
+    "url": "git+https://github.com/dr3dr3/andre-gitops.git"
   },
   "author": "André Dreyer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dr3dr3/temp-gitops/issues"
+    "url": "https://github.com/dr3dr3/andre-gitops/issues"
   },
-  "homepage": "https://github.com/dr3dr3/temp-gitops#readme",
+  "homepage": "https://github.com/dr3dr3/andre-gitops#readme",
   "scripts": {
     "gitops": "./cli/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",

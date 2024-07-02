@@ -10,8 +10,8 @@ permissions:
 
 jobs:
 
-  get-config:
-    name: Repositories GitOps
+  initial-setup:
+    name: Initial Setup
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,7 +23,12 @@ jobs:
         env:
           gitops-secret: ${{ secrets.GITOPS_PAT }}
         if: ${{ env.gitops-secret == '' }}
-        run: echo "echo the secret \"GITOPS_PAT\" has not been made; echo please go to \"settings \> secrets \> actions \> repository secrets\" to create it"
+        run: |
+          echo "The secret \"GITOPS_PAT\" has not been made"
+          echo "Please go to \"settings > secrets > actions > repository secrets\" to create it"
+          echo "### 🛑 ERROR" >> $GITHUB_STEP_SUMMARY
+          echo "The secret \"GITOPS_PAT\" has not been made" >> $GITHUB_STEP_SUMMARY
+          exit 1
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,6 +36,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
   
+      # Install dependencies needed by action scripts
       - name: Install Node dependencies
         run: npm install
 

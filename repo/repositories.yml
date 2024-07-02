@@ -4,9 +4,9 @@ repositories:
     - name: www
       repo: andre-nextjs
       repoDescription: 'Andre Dreyer Personal Website'
-      repoTemplate: template-nextjs-landing
+      repoTemplate: template-nextjs-general
       groups: 
-      - www
+      - frontend
       - default
       route: root
       githubPages: true
@@ -17,7 +17,7 @@ repositories:
       repoDescription: 'Andre Dreyer Presentations' 
       repoTemplate: template-revealmd
       groups: 
-      - www
+      - frontend
       route: present
       githubPages: true
       gitflow: trunk-based-development
