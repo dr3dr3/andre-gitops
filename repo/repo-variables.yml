@@ -122,7 +122,7 @@ repoVariables:
     value: stg
   - name: REPO_PROD
     repo: andre-stage
-    value: andre-prod
+    value: dr3dr3/andre-prod
     
   - name: SOLN_GROUP
     repo: andre-prod
