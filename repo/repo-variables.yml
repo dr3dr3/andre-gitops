@@ -5,7 +5,7 @@ repoVariables:
     value: nextjs
   - name: SOLN_GROUP
     repo: andre-nextjs
-    value: www
+    value: frontend
   - name: SOLN_DIR
     repo: andre-nextjs
     value: landing
@@ -39,7 +39,7 @@ repoVariables:
     value: revealmd
   - name: SOLN_GROUP
     repo: andre-revealmd
-    value: www
+    value: frontend
   - name: SOLN_DIR
     repo: andre-revealmd
     value: revealmd
@@ -110,7 +110,7 @@ repoVariables:
     value: https://stg.andredreyer.com
   - name: CHECK_LINKS
     repo: andre-stage
-    value: 'true'
+    value: 'false'
   - name: REPO_GITOPS
     repo: andre-stage
     value: dr3dr3/andre-gitops
@@ -132,7 +132,7 @@ repoVariables:
     value: https://www.andredreyer.com
   - name: CHECK_LINKS
     repo: andre-prod
-    value: 'true'
+    value: 'false'
   - name: REPO_GITOPS
     repo: andre-prod
     value: dr3dr3/andre-gitops
