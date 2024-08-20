@@ -36,7 +36,6 @@ const repoSchema = z.object({
 const repoVarsSchema = z.object({
     repoVariables: z.object({
         name: z.enum([
-            "SOLUTION",
             "SOLN_GROUP",
             "SOLN_DIR",
             "OUTPUT_DIR",

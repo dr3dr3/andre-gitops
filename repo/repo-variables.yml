@@ -1,8 +1,5 @@
 repoVariables:
 
-  - name: SOLUTION
-    repo: andre-nextjs
-    value: nextjs
   - name: SOLN_GROUP
     repo: andre-nextjs
     value: frontend
@@ -34,9 +31,6 @@ repoVariables:
     repo: andre-nextjs
     value: 'false'
 
-  - name: SOLUTION
-    repo: andre-revealmd
-    value: revealmd
   - name: SOLN_GROUP
     repo: andre-revealmd
     value: frontend
@@ -68,9 +62,6 @@ repoVariables:
     repo: andre-revealmd
     value: 'false'
 
-  - name: SOLUTION
-    repo: andre-featurevisor
-    value: featurevisor
   - name: SOLN_GROUP
     repo: andre-featurevisor
     value: flags
